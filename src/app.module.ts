@@ -1,8 +1,9 @@
 import { Module } from "@nestjs/common";
 import { SequelizeModule } from "@nestjs/sequelize";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 
 import { UsersModule } from "./users/users.module";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { RolesModule } from "./roles/roles.module";
 import getSequelizeConfig from "./config/getSequelize.config";
 
 @Module({
@@ -15,7 +16,8 @@ import getSequelizeConfig from "./config/getSequelize.config";
       inject: [ConfigService],
       useFactory: getSequelizeConfig
     }),
-    UsersModule
+    UsersModule,
+    RolesModule
   ],
   controllers: [],
   providers: []
