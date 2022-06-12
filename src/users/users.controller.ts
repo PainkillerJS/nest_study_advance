@@ -12,14 +12,14 @@ export class UsersController {
 
   @ApiOperation({ summary: "Создание пользователя" })
   @ApiResponse({ status: 200, type: User })
-  @Post()
+  @Post("create")
   async create(@Body() userDto: CreateUserDto) {
     return await this.usersService.createUser(userDto);
   }
 
   @ApiOperation({ summary: "Получение всех пользователей" })
   @ApiResponse({ status: 200, type: [User] })
-  @Get()
+  @Get("all")
   getAllUsers() {
     return this.usersService.getAllUser();
   }

@@ -10,7 +10,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder().setTitle("Documentation").setDescription("Для уроков").setVersion("1.0.0").addTag("Yuriy").build();
-
   const documentSwagger = SwaggerModule.createDocument(app, config);
 
   SwaggerModule.setup("/api/docs", app, documentSwagger);
