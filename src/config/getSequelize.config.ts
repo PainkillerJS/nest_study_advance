@@ -13,7 +13,7 @@ const getSequelizeConfig = (configService: ConfigService): Promise<SequelizeModu
   port: configService.get("POSTGRES_PORT"),
   username: configService.get("POSTGRES_USER"),
   password: configService.get("POSTGRES_PASSWORD"),
-  database: "nest-course",
+  database: configService.get("POSTGRES_DB"),
   models: [User, Role, UserRoles, Posts],
   autoLoadModels: true,
   logging: false
