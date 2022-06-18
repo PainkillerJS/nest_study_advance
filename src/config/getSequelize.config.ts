@@ -5,6 +5,7 @@ import type { SequelizeModuleOptions } from "@nestjs/sequelize/dist/interfaces/s
 import { User } from "../users/models/user.model";
 import { Role } from "../roles/models/roles.model";
 import { UserRoles } from "../roles/models/user-roles.model";
+import { Posts } from "../posts/models/post.model";
 
 const getSequelizeConfig = (configService: ConfigService): Promise<SequelizeModuleOptions> | SequelizeModuleOptions => ({
   dialect: "postgres",
@@ -13,7 +14,7 @@ const getSequelizeConfig = (configService: ConfigService): Promise<SequelizeModu
   username: configService.get("POSTGRES_USER"),
   password: configService.get("POSTGRES_PASSWORD"),
   database: "nest-course",
-  models: [User, Role, UserRoles],
+  models: [User, Role, UserRoles, Posts],
   autoLoadModels: true,
   logging: false
 });

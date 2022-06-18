@@ -1,12 +1,17 @@
-import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsToMany, Column, DataType, HasOne, Model, Table } from "sequelize-typescript";
 import { ApiProperty } from "@nestjs/swagger";
 
 import { Role } from "../../roles/models/roles.model";
 import { UserRoles } from "../../roles/models/user-roles.model";
+import { Posts } from "../../posts/models/post.model";
 
 interface UserCreation {
   email: string;
   password: string;
+  isBanned: boolean;
+  banReason: string;
+  roles: Role[];
+  posts: Posts[];
 }
 
 @Table({ tableName: "users" })
@@ -33,4 +38,7 @@ export class User extends Model<User, UserCreation> {
 
   @BelongsToMany(() => Role, () => UserRoles)
   roles: Role[];
+
+  @HasOne(() => Posts)
+  posts: Posts[];
 }
