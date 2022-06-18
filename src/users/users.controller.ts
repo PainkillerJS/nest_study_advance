@@ -7,6 +7,8 @@ import { User } from "./models/user.model";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { Roles } from "../auth/decorators/roles-auth.decorators";
 import { RolesGuard } from "../auth/guards/role.guard";
+import { RoleDto } from "./dto/role.dto";
+import BanUserDto from "./dto/ban-user.dto";
 
 @ApiTags("Пользователи")
 @Controller("users")
@@ -28,5 +30,25 @@ export class UsersController {
   @Get("all")
   getAllUsers() {
     return this.usersService.getAllUser();
+  }
+
+  @ApiOperation({ summary: "Забанить пользователя" })
+  @ApiResponse({ status: 200 })
+  @UseGuards(JwtAuthGuard)
+  @Roles("ADMIN")
+  @UseGuards(RolesGuard)
+  @Post("/role")
+  addRole(@Body() dto: RoleDto) {
+    return this.usersService.addRole(dto);
+  }
+
+  @ApiOperation({ summary: "Забанить пользователя" })
+  @ApiResponse({ status: 200 })
+  @UseGuards(JwtAuthGuard)
+  @Roles("ADMIN")
+  @UseGuards(RolesGuard)
+  @Post("/ban")
+  banUser(@Body() dto: BanUserDto) {
+    return this.usersService.banUser(dto);
   }
 }

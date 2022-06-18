@@ -1,9 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 
 import { User } from "./models/user.model";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { RolesService } from "../roles/roles.service";
+import { RoleDto } from "./dto/role.dto";
+import BanUserDto from "./dto/ban-user.dto";
 
 @Injectable()
 export class UsersService {
@@ -29,6 +31,33 @@ export class UsersService {
 
   async findUserByEmail(email: string) {
     const user = await this.userRepository.findOne({ where: { email }, include: { all: true } });
+
+    return user;
+  }
+
+  async addRole(dto: RoleDto) {
+    const user = await this.userRepository.findByPk(dto.userId);
+    const role = await this.roleService.getRoleByValue(dto.value);
+
+    if (!user && !role) {
+      throw new UnauthorizedException("Пользователь не найден");
+    }
+
+    await user.$add("role", role.id);
+
+    return dto;
+  }
+
+  async banUser(dto: BanUserDto) {
+    const user = await this.userRepository.findByPk(dto.userId);
+
+    if (!user) {
+      throw new UnauthorizedException("Пользователь не найден");
+    }
+
+    user.isBanned = true;
+    user.banReason = dto.banReason;
+    await user.save();
 
     return user;
   }
